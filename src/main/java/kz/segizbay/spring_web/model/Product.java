@@ -7,15 +7,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name="students")
+@Table(name="product")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Student {
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private Integer score;
+    private String title;
+    private Integer price;
 }

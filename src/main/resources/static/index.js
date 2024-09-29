@@ -3,49 +3,36 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
 
     const contextPath = 'http://localhost:8189/app/api/v1';
 
-    $scope.loadStudents = function (pageIndex= 1){
+    $scope.loadProducts = function (pageIndex= 1){
         $http({
-            url: contextPath + '/students',
+            url: contextPath + '/products',
             method: 'GET',
             params: {
-                name_part: $scope.filter ? $scope.filter.name_part : null,
-                min_score: $scope.filter ? $scope.filter.min_score : null,
-                max_score: $scope.filter ? $scope.filter.max_score : null
+                title_part: $scope.filter ? $scope.filter.title_part : null,
+                min_price: $scope.filter ? $scope.filter.min_price : null,
+                max_price: $scope.filter ? $scope.filter.max_price : null
             }
         }).then(function (response) {
-            $scope.StudentsList = response.data.content;
+            $scope.ProductList = response.data.content;
         });
     };
 
 
-    $scope.deleteStudent = function (studentId){
-        $http.delete(contextPath + '/students/'+studentId)
+    $scope.deleteProduct = function (studentId){
+        $http.delete(contextPath + '/products/'+studentId)
             .then(function (response){
-                $scope.loadStudents();
+                $scope.loadProducts();
             });
     }
 
-    $scope.changeScore = function (studentId, delta){
-        $http({
-            url: contextPath + '/students/change_score',
-            method: 'GET',
-            params: {
-                studentId: studentId,
-                delta: delta
-            }
-        }).then(function (response){
-            $scope.loadStudents();
-        })
-    }
 
-    $scope.createStudent = function (){
-        console.log($scope.newStudent);
-        $http.post(contextPath + '/students', $scope.newStudent)
+    $scope.createProduct = function (){
+        $http.post(contextPath + '/products', $scope.newProduct)
             .then(function (response){
-                $scope.loadStudents();
-                $scope.newStudent = null;
+                $scope.loadProducts();
+                $scope.newProduct = null;
             })
     }
 
-    $scope.loadStudents();
+    $scope.loadProducts();
 })
