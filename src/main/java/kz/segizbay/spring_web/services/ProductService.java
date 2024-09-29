@@ -4,16 +4,17 @@ import kz.segizbay.spring_web.model.Product;
 import kz.segizbay.spring_web.repositories.ProductRepository;
 import kz.segizbay.spring_web.repositories.specifications.ProductSpecification;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class ProductService {
     private final ProductRepository productRepository;
 
@@ -31,6 +32,7 @@ public class ProductService {
         return productRepository.findAll(spec, PageRequest.of(page-1, 5));
     }
 
+    @Transactional
     public void deleteById(long id) {
         productRepository.deleteById(id);
     }
@@ -39,7 +41,12 @@ public class ProductService {
         return productRepository.findById(id);
     }
 
+    @Transactional
     public Product save(Product product) {
         return productRepository.save(product);
+    }
+
+    public Optional<Product> findByTitle(String title){
+        return productRepository.findByTitle(title);
     }
 }

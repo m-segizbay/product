@@ -5,6 +5,7 @@ import kz.segizbay.spring_web.dtos.ProductDTO;
 import kz.segizbay.spring_web.exceptions.ResourceNotFoundException;
 import kz.segizbay.spring_web.model.Product;
 import kz.segizbay.spring_web.services.ProductService;
+import kz.segizbay.spring_web.validator.ProductValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class ProductController {
     private final ProductService productService;
     private final ProductConverter productConverter;
+    private final ProductValidator productValidator;
 
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable Long id){
@@ -43,6 +45,7 @@ public class ProductController {
 
     @PostMapping
     public ProductDTO save(@RequestBody ProductDTO productDTO){
+        productValidator.validate(productDTO);
         Product product = productConverter.dtoToEntity(productDTO);
         product.setId(null);
         Product save = productService.save(product);
