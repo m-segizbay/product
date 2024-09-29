@@ -4,6 +4,7 @@ import kz.segizbay.spring_web.exceptions.ResourceNotFoundException;
 import kz.segizbay.spring_web.model.Student;
 import kz.segizbay.spring_web.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,8 +24,16 @@ public class StudentController {
     }
 
     @GetMapping("/students")
-    public List<Student> findAll() {
-        return studentService.finaAll();
+    public Page<Student> findAll(
+            @RequestParam(name = "p", defaultValue = "1") Integer page,
+            @RequestParam(name = "min_score", required = false) Integer minScore,
+            @RequestParam(name = "max_score", required = false) Integer maxScore,
+            @RequestParam(name = "part_name", required = false) String partName
+    ) {
+        if (page<1){
+            page = 1;
+        }
+        return studentService.finaAll(minScore, maxScore, partName, page);
     }
 
     @GetMapping("/students/change_score")

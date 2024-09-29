@@ -13,6 +13,6 @@ public class StudentSpecification {
     }
 
     public static Specification<Student> nameLike(String name){
-        return (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("name"), String.format("%%%s%%%"));
+        return (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("name"), String.format("%%%s%%", name));
     }
 }

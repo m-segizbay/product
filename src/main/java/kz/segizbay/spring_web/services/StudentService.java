@@ -4,7 +4,11 @@ import jakarta.transaction.Transactional;
 import kz.segizbay.spring_web.exceptions.ResourceNotFoundException;
 import kz.segizbay.spring_web.model.Student;
 import kz.segizbay.spring_web.repositories.StudentsRepository;
+import kz.segizbay.spring_web.repositories.specifications.StudentSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,8 +23,18 @@ public class StudentService {
         this.studentsRepository = studentsRepository;
     }
 
-    public List<Student> finaAll() {
-        return studentsRepository.findAll();
+    public Page<Student> finaAll(Integer minScore, Integer maxScore, String partName, Integer page) {
+        Specification<Student> spec = Specification.where(null);
+        if (minScore != null) {
+            spec = spec.and(StudentSpecification.scoreGraterOrEqualsThan(minScore));
+        }
+        if (maxScore != null){
+            spec = spec.and(StudentSpecification.scoreLessOrEqualsThan(maxScore));
+        }
+        if (partName != null){
+            spec = spec.and(StudentSpecification.nameLike(partName));
+        }
+        return studentsRepository.findAll(spec, PageRequest.of(page-1, 5));
     }
 
     public void deleteById(long id) {
