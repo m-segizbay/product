@@ -17,11 +17,26 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
         });
     };
 
+    $scope.loadBasket = function (){
+        $http.get(contextPath + '/baskets')
+            .then(function (response) {
+                console.log(response.data);
+                $scope.BasketList = response.data;
+            })
+    };
 
-    $scope.deleteProduct = function (studentId){
-        $http.delete(contextPath + '/products/'+studentId)
+
+    $scope.addProduct = function (productId){
+        $http.get(contextPath + '/baskets/'+productId + '/add')
             .then(function (response){
-                $scope.loadProducts();
+                $scope.loadBasket();
+            });
+    }
+
+    $scope.deleteProduct = function (basketId){
+        $http.delete(contextPath + '/baskets/'+basketId)
+            .then(function (response){
+                $scope.loadBasket();
             });
     }
 
@@ -35,4 +50,5 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
     }
 
     $scope.loadProducts();
+    $scope.loadBasket();
 })

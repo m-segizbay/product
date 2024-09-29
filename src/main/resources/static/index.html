@@ -42,7 +42,7 @@
                     <td>{{p.title}}</td>
                     <td>{{p.price}}</td>
                     <td>
-                        <button class="btn btn-danger" ng-click="deleteProduct(p.id)">Исключить</button>
+                        <button class="btn btn-success" ng-click="addProduct(p.id)">Добавить в карзину</button>
                     </td>
                 </tr>
             </tbody>
@@ -54,6 +54,28 @@
             <p></p>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
+        <p></p>
+        <h3>Карзина</h3>
+        <table class="table table-never">
+            <tr>
+                <td>ID</td>
+                <td>NAME</td>
+                <td>PRICE</td>
+                <td>COUNT</td>
+                <td>ACTION</td>
+            </tr>
+            <tbody>
+            <tr ng-repeat="b in BasketList">
+                <td>{{b.id}}</td>
+                <td>{{b.productDTO.title}}</td>
+                <td>{{b.productDTO.price}}</td>
+                <td>{{b.countProducts}}</td>
+                <td>
+                    <button class="btn btn-danger" ng-click="deleteProduct(b.id)">Удалить</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </body>
 </html>

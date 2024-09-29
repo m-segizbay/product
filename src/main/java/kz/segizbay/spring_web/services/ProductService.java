@@ -1,5 +1,6 @@
 package kz.segizbay.spring_web.services;
 
+import kz.segizbay.spring_web.exceptions.ResourceNotFoundException;
 import kz.segizbay.spring_web.model.Product;
 import kz.segizbay.spring_web.repositories.ProductRepository;
 import kz.segizbay.spring_web.repositories.specifications.ProductSpecification;
@@ -37,8 +38,8 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
-    public Optional<Product> findtById(long id) {
-        return productRepository.findById(id);
+    public Product findtById(long id) {
+        return productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product with id " + id + " not found"));
     }
 
     @Transactional

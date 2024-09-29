@@ -1,4 +1,16 @@
-create table if not exists product(id bigserial primary key, title varchar(255), price int);
+
+CREATE TABLE IF NOT EXISTS product (
+                                       id BIGSERIAL PRIMARY KEY,
+                                       title VARCHAR(255),
+                                        price INT
+    );
+
+CREATE TABLE IF NOT EXISTS basket (
+                                      id BIGSERIAL PRIMARY KEY,
+                                      count_products INT,
+                                      product_id BIGINT UNIQUE,
+                                      FOREIGN KEY (product_id) REFERENCES product(id) ON DELETE CASCADE
+    );
 
 
 INSERT INTO product (title, price)
@@ -53,3 +65,8 @@ VALUES
     ('Wyze Cam v3', 36),
     ('Ecovacs Deebot T8', 499),
     ('iRobot Roomba 694', 299);
+
+
+
+INSERT INTO basket(count_products, product_id)
+VALUES (1, 5), (2, 3), (4, 2), (5, 1);

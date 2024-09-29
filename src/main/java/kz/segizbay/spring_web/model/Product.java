@@ -19,4 +19,13 @@ public class Product {
     private Long id;
     private String title;
     private Integer price;
+
+    @OneToOne(mappedBy = "product")
+    private Basket basket;
+
+    public Product(Long id, String title, Integer price) {
+        this.id = id;
+        this.title = title;
+        this.price = price;
+    }
 }
