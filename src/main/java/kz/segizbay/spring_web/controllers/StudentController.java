@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/v1/students")
 public class StudentController {
     private StudentService studentService;
 
@@ -18,42 +19,47 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @GetMapping("/students/delete/{id}")
+    @DeleteMapping("/{id}")
     public void deleteById(@PathVariable Long id){
         studentService.deleteById(id);
     }
 
-    @GetMapping("/students")
+    @GetMapping
     public Page<Student> findAll(
             @RequestParam(name = "p", defaultValue = "1") Integer page,
             @RequestParam(name = "min_score", required = false) Integer minScore,
             @RequestParam(name = "max_score", required = false) Integer maxScore,
-            @RequestParam(name = "part_name", required = false) String partName
+            @RequestParam(name = "name_part", required = false) String namePart
     ) {
         if (page<1){
             page = 1;
         }
-        return studentService.finaAll(minScore, maxScore, partName, page);
+        return studentService.finaAll(minScore, maxScore, namePart, page);
     }
 
-    @GetMapping("/students/change_score")
+    @GetMapping("/change_score")
     public void changeScore(@RequestParam Long studentId, @RequestParam Integer delta){
         studentService.changeScoreById(studentId, delta);
     }
 
-    @GetMapping("/students/score_between")
+    @GetMapping("/score_between")
     public List<Student> demo(@RequestParam(defaultValue = "0") Integer min,
                               @RequestParam(defaultValue = "100") Integer max){
         return studentService.findByScoreBetween(min, max);
     }
 
-    @GetMapping("/students/{id}")
-    public Student getStudentById(@PathVariable Long id){
+    @GetMapping("/{id}")
+    public Student getById(@PathVariable Long id){
         return studentService.findtById(id).orElseThrow(() -> new ResourceNotFoundException("Student with id " + id + " not found"));
     }
 
-    @PostMapping("/students")
+    @PostMapping
     public Student save(@RequestBody Student student){
+        return studentService.save(student);
+    }
+
+    @PutMapping
+    public Student update(@RequestBody Student student){
         return studentService.save(student);
     }
 }
