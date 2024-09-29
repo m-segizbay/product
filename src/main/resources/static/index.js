@@ -1,7 +1,7 @@
 angular.module('app', []).controller('indexController', function ($scope, $http){
 
 
-    const contextPath = 'http://localhost:8189/app/api/v1';
+    const contextPath = 'http://product_app:8080/app/api/v1';
 
     $scope.loadProducts = function (pageIndex= 1){
         $http({
@@ -48,6 +48,28 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
                 $scope.newProduct = null;
             })
     }
+
+    $scope.changeCount = function (basketId, digit){
+
+        const basketItem = $scope.BasketList.find(item => item.id === basketId);
+
+        if (digit === -1 && basketItem.countProducts <= 1) {
+            $scope.deleteProduct(basketId);
+            return;
+        };
+
+
+        $http({
+            url: contextPath + '/baskets/change_count',
+            method: 'GET',
+            params: {
+                basketId: basketId,
+                digit: digit
+            }
+        }).then(function (response){
+            $scope.loadBasket();
+        });
+    };
 
     $scope.loadProducts();
     $scope.loadBasket();

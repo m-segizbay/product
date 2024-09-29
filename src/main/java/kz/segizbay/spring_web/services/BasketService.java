@@ -39,4 +39,10 @@ public class BasketService {
     public void deleteById(Long id) {
         basketRepository.deleteById(id);
     }
+
+    @Transactional
+    public void changeCount(Long basketId, Integer digit) {
+        Basket basket = basketRepository.findById(basketId).get();
+        basket.setCountProducts(basket.getCountProducts()+digit);
+    }
 }

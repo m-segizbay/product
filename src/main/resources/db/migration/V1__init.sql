@@ -1,16 +1,17 @@
 
 CREATE TABLE IF NOT EXISTS product (
                                        id BIGSERIAL PRIMARY KEY,
-                                       title VARCHAR(255),
-                                        price INT
+                                       title VARCHAR(255) NOT NULL,
+    price INT NOT NULL
     );
 
 CREATE TABLE IF NOT EXISTS basket (
                                       id BIGSERIAL PRIMARY KEY,
-                                      count_products INT,
+                                      count_products INT NOT NULL,
                                       product_id BIGINT UNIQUE,
                                       FOREIGN KEY (product_id) REFERENCES product(id) ON DELETE CASCADE
     );
+
 
 
 INSERT INTO product (title, price)

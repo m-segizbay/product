@@ -69,7 +69,11 @@
                 <td>{{b.id}}</td>
                 <td>{{b.productDTO.title}}</td>
                 <td>{{b.productDTO.price}}</td>
-                <td>{{b.countProducts}}</td>
+                <td>
+                    <button class="btn btn-primary" ng-click="changeCount(b.id, -1)">-</button>
+                    {{b.countProducts}}
+                    <button class="btn btn-primary" ng-click="changeCount(b.id, 1)">+</button>
+                </td>
                 <td>
                     <button class="btn btn-danger" ng-click="deleteProduct(b.id)">Удалить</button>
                 </td>

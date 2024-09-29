@@ -29,4 +29,9 @@ public class BasketController {
     public void delete(@PathVariable("id") Long id){
         basketService.deleteById(id);
     }
+
+    @GetMapping("/change_count")
+    public void changeCount(@RequestParam Long basketId, @RequestParam Integer digit){
+        basketService.changeCount(basketId, digit);
+    }
 }
