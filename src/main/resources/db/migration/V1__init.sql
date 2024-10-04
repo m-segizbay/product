@@ -71,3 +71,34 @@ VALUES
 
 INSERT INTO basket(count_products, product_id)
 VALUES (1, 5), (2, 3), (4, 2), (5, 1);
+
+CREATE TABLE users(
+    id bigserial primary key,
+    username varchar(30) not null,
+    password varchar(100) not null,
+    email varchar(50) not null,
+    created_at timestamp default current_timestamp,
+    updated_at timestamp default current_timestamp
+);
+
+
+CREATE TABLE roles(
+    id bigserial primary key,
+    name varchar(50) not null,
+    created_at timestamp default current_timestamp,
+    updated_at timestamp default current_timestamp
+);
+
+create table users_roles(
+    user_id bigint not null references users(id),
+    role_id bigint not null references roles(id),
+    primary key (user_id, role_id)
+);
+
+insert into roles(name) values ('ROLE_ADMIN'), ('ROLE_USER');
+
+insert into users(username, password, email) values ('Bob', '$2a$12$bzLy3kufhb66khkRyNb42OwRzOt0f1/BmwrWIc3YE1bx23AUfBTca', 'bob@mail.ru'),
+                                                    ('Mike', '$2a$12$bzLy3kufhb66khkRyNb42OwRzOt0f1/BmwrWIc3YE1bx23AUfBTca', 'mike@mail.ru');
+
+insert into users_roles(user_id, role_id) values (1, 1),
+                                                 (2, 2);
